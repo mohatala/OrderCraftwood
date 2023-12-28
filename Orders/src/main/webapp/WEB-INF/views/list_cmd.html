@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Craft Wood</title>
+
+    <!-- Boostrap core css -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}"/>
+
+    <!-- custom style -->
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+ <div class="col-4">
+   <div class="list-group">
+     <a class="list-group-item list-group-item-action test" th:href="@{'/commande/}">Gestion des Commandes</a>
+   </div>
+ </div>
+ <div class="col-4">
+   <div class="list-group">
+     <a class="list-group-item list-group-item-action" th:href="@{'/client/}">Gestion des Client</a>
+   </div>
+ </div>
+ <div class="col-4">
+   <div class="list-group">
+     <a class="list-group-item list-group-item-action" th:href="@{'/article/}">Gestion des Articles</a>
+   </div>
+ </div>
+</div>
+        <section class="rightside">
+            <div class="nav" style="margin-top: 10px">
+                <ul class="nav nav-pills mb-3" >
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-primary" style="margin-right: 10px"  href="CommandeServlet?op=add" >Nouveau Commande</a>
+                      </li>
+                      <li class="nav-item">
+                        <a class="nav-link btn btn-outline-primary"  href="CommandeServlet" >Liste des Commandes</a>
+                      </li>
+                  </ul>
+            </div>
+            <div>
+                <h1>Liste des Commandes </h1>
+                <input type="text" id="SearchCommande" onkeyup="myFunction()" placeholder="Recherche Par Nom Client" title="Taper Nom Client" style="width: 500px;">
+                
+                <table class="table" id="Table">
+                  <tr>
+                    <th scope="col">Id Commande</th><th scope="col">Nom Client</th><th scope="col">Etat</th><th scope="col">Date Commande</th><th>Operation</th>
+                  </tr>
+ 
+
+			            <p th:text="commande:${datacmd}"></p>
+			           
+                </table>
+            </div>
+        </section>
+    </div>
+    <script>
+function myFunction() {
+  var input, filter, table, tr, td, i, txtValue;
+  input = document.getElementById("SearchCommande");
+  filter = input.value.toUpperCase();
+  table = document.getElementById("Table");
+  tr = table.getElementsByTagName("tr");
+  for (i = 0; i < tr.length; i++) {
+    td = tr[i].getElementsByTagName("td")[1];
+    if (td) {
+      txtValue = td.textContent || td.innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        tr[i].style.display = "";
+      } else {
+        tr[i].style.display = "none";
+      }
+    }       
+  }
+}
+</script>    
+</body>
+</html>
