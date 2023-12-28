@@ -41,7 +41,7 @@ public class CommandeController {
 	
 	@GetMapping("/")
 	public String listcommandes(Model md) {
-		System.out.println(cmdDao.afficherCommandes());
+		//System.out.println(cmdDao.afficherCommandes());
 		md.addAttribute("datacmd",cmdDao.afficherCommandes());
 		return "list_cmd";
 	}

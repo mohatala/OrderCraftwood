@@ -42,9 +42,8 @@ public class ClientDAO implements I_Client{
 	public Client modifierClient(Client c) {
 		 // Modifier Client
 		Client cl=clientRepository.saveAndFlush(c);
-				log.debug("Client Modifier"+cl.getId_client());
-
-			   return this.afficherClientAvecId(c.getId_client());
+		log.debug("Client Modifier"+cl.getId_client());
+		return this.afficherClientAvecId(c.getId_client());
 	}
 	
 	@Override

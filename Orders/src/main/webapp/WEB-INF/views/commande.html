@@ -18,17 +18,17 @@
     <div class="row">
  <div class="col-4">
    <div class="list-group">
-     <a class="list-group-item list-group-item-action test" th:href="@{'/commande/}">Gestion des Commandes</a>
+     <a class="list-group-item list-group-item-action test" th:href="@{'/commande/'}">Gestion des Commandes</a>
    </div>
  </div>
  <div class="col-4">
    <div class="list-group">
-     <a class="list-group-item list-group-item-action" th:href="@{'/client/}">Gestion des Client</a>
+     <a class="list-group-item list-group-item-action" th:href="@{'/client/'}">Gestion des Client</a>
    </div>
  </div>
  <div class="col-4">
    <div class="list-group">
-     <a class="list-group-item list-group-item-action" th:href="@{'/article/}">Gestion des Articles</a>
+     <a class="list-group-item list-group-item-action" th:href="@{'/article/'}">Gestion des Articles</a>
    </div>
  </div>
 </div>
@@ -36,10 +36,10 @@
             <div class="nav" style="margin-top: 10px">
                 <ul class="nav nav-pills mb-3" >
                     <li class="nav-item">
-                        <a class="nav-link btn btn-outline-primary" style="margin-right: 10px"  href="CommandeServlet?op=add" >Nouveau Commande</a>
+                        <a class="nav-link btn btn-outline-primary" style="margin-right: 10px"  th:href="@{'/commande/Add'}" >Nouveau Commande</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link btn btn-outline-primary" href="CommandeServlet" >Liste des Commandes</a>
+                        <a class="nav-link btn btn-outline-primary" th:href="@{'/commande/'}" >Liste des Commandes</a>
                       </li>
                   </ul>
             </div>

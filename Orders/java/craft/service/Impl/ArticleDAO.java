@@ -42,7 +42,7 @@ public class ArticleDAO implements I_Article{
 	@Transactional
 	public Article afficherArticleAvecId(int id){
 		//Afficher Les Article Par id article
-		 Article ar=articleRepository.getOne(id);
+		 Article ar=articleRepository.findById(id).get();
 			log.debug("Article afficher avec id="+id);
 
 		return ar; 

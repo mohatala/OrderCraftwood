@@ -46,17 +46,17 @@
             <div>
             
             	<div th:if="${mod}"><h1>Modifier Client </h1>
-            	 <form action="operation" method="post">
+            	 <form action="#" th:action="@{/client/test}" th:object="${cl}" method="post">
             		<input type="hidden" name="op" value="modifier">
-                    <input type="hidden" name="id" th:value="${client.id_client}" >
+                    <input type="hidden" th:field="*{id_client}"  >
                     <label for="">Nom Client</label>
-                    <input type="text" name="nom" th:value="${client.nom}" required="required"> <br><br>
+                    <input type="text" th:field="*{nom}"  required="required"> <br><br>
                     <label for="">Prenom </label>
-                    <input type="text" name="prenom" th:value="${client.prenom}" required="required"><br><br>
+                    <input type="text" th:field="*{prenom}" required="required"><br><br>
                     <label for="">Tel</label>
-                    <input type="text" name="tel" th:value="${client.tel}" required="required"><br><br>
+                    <input type="text" th:field="*{tel}"  required="required"><br><br>
                     <label for="">Adresse</label>
-                    <input type="text" name="adresse" th:value="${client.adresse}" required="required"><br><br>
+                    <input type="text" th:field="*{adresse}"  required="required"><br><br>
                     <input type="submit" class="btn btn-success" value="Modifier Client">
             	  </form>
             	
