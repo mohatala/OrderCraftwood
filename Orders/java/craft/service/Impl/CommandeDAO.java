@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import craft.DTO.CmdArtDTO;
 import craft.DTO.CommandeDTO;
 import craft.model.Article;
 import craft.model.Commande;
@@ -98,27 +99,27 @@ public class CommandeDAO implements I_Commande{
 	
 	@Override
 	@Transactional
-	public ArrayList<String> afficherInfosCommande(int id){
+	public List<CmdArtDTO> afficherInfosCommande(int id){
 		//afficher les informations des commandes
 		ArrayList<String> commandesList=new ArrayList<>();
-		List<Object[]> li=commandeRepository.getInfosCommande(id);
-		
-		for (Object o[] : li) {
-		    Commande c = (Commande) o[0];
-		    System.out.println(c);
-		    //CommandeArticle ca = (CommandeArticle) o[1];
-
-		    //all the classes: Course, Lesson, Progress and User have the toString() overridden with the database ID;    
-		    //System.out.printf("\ncommande: %s \n commande article: %s",c,ca);
-		}
-			/*String ob=null;
-			while (st.next()) {
-			ob=st.getInt(1)+","+st.getInt(2)+","+ st.getInt(3)+","+ st.getInt(4);
-			commandesList.add(ob);
-			}*/
+		Commande commande=this.afficherCommandeAvecId(id);
+		Commande cmd=new Commande.CommandeBuilder().setId_commande(id).build();
+		List<CommandeArticle> commandes_articles=cmdartRepo.findBycommande(cmd);
+		//System.out.println(commandes_articles);
+		List<CmdArtDTO> list_cmdartDTO=new ArrayList<CmdArtDTO>();
+			for(CommandeArticle c:commandes_articles) {
+				CmdArtDTO cad=new CmdArtDTO();
+				cad.setId_commande(commande.getId_commande());
+				cad.setClient(commande.getclient());
+				cad.setCreated_at(commande.getcreated_at());
+				cad.setEtat(commande.getEtat());
+				cad.setArt(c.getArticle());
+				cad.setQty(c.getQty());
+				list_cmdartDTO.add(cad);
+			}
 			log.debug("Afficher les infos commande");
-	
-		return commandesList; 
+			
+		return list_cmdartDTO; 
 	}
 		
 	@Override
@@ -126,9 +127,9 @@ public class CommandeDAO implements I_Commande{
 	public Commande modifieretat(int id,String etat) {
 		//modifier l'etat de la commande
 		 // Modifier Etat
-		Commande cmd=this.afficherCommandeAvecId(id);
+		/*Commande cmd=this.afficherCommandeAvecId(id);
 		ArticleDAO artdao =new ArticleDAO();
-		ArrayList<String> listart=this.afficherInfosCommande(id);
+		List listart=this.afficherInfosCommande(id);
 		//System.out.print(cmd.getEtat());
 		Etat enumEtat = null;
 		if(cmd.getEtat().equals(enumEtat.EnCours.name().toString())|| cmd.getEtat().equals(enumEtat.EnAttente.name().toString())) {

@@ -18,17 +18,17 @@
     <div class="row">
  <div class="col-4">
    <div class="list-group">
-     <a class="list-group-item list-group-item-action test" th:href="@{'/commande/}">Gestion des Commandes</a>
+     <a class="list-group-item list-group-item-action test" th:href="@{'/commande/'}">Gestion des Commandes</a>
    </div>
  </div>
  <div class="col-4">
    <div class="list-group">
-     <a class="list-group-item list-group-item-action" th:href="@{'/client/}">Gestion des Client</a>
+     <a class="list-group-item list-group-item-action" th:href="@{'/client/'}">Gestion des Client</a>
    </div>
  </div>
  <div class="col-4">
    <div class="list-group">
-     <a class="list-group-item list-group-item-action" th:href="@{'/article/}">Gestion des Articles</a>
+     <a class="list-group-item list-group-item-action" th:href="@{'/article/'}">Gestion des Articles</a>
    </div>
  </div>
 </div>
@@ -36,38 +36,24 @@
             <div class="nav" style="margin-top: 10px">
                 <ul class="nav nav-pills mb-3" >
                     <li class="nav-item">
-                        <a class="nav-link btn btn-outline-primary" style="margin-right: 10px"   href="CommandeServlet?op=add" >Nouveau Commande</a>
+                        <a class="nav-link btn btn-outline-primary" style="margin-right: 10px"  th:href="@{'/commande/Add'}" >Nouveau Commande</a>
                       </li>
                       <li class="nav-item">
-                        <a class="nav-link btn btn-outline-primary" href="CommandeServlet" >Liste des Commandes</a>
+                        <a class="nav-link btn btn-outline-primary" th:href="@{'/commande/'}" >Liste des Commandes</a>
                       </li>
                   </ul>
             </div>
-            <div class="">
-            <%ArrayList<String> std =  (ArrayList<String>)request.getAttribute("datacmd"); 
-                   ClientDAO cliDao=new ClientDAO();
-                   ArticleDAO artDao=new ArticleDAO();
-                   CommandeDAO cmdDao=new CommandeDAO();
-                   String [] row1 = std.get(0).split(",");
-                   %> 
+            <div class="">            
         <div class="">
             <h1>Informations de Commande</h1>
-            <p>Numero de Commande: <%=row1[0] %></p>
-            <p>Date de Commande: <%=cmdDao.afficherCommandeAvecId(Integer.parseInt(row1[0])).getcreated_at() %></p>
+            <p>Numero de Commande: <span th:text="${datacmd[0].id_commande}"></span></p>
+            <p>Date de Commande: <span th:text="${datacmd[0].created_at}"></span></p>
             <p> 
             <form action="CommandeServlet" method="post">
             <input type="hidden" name="op" value="etat">
-            <input type="hidden" name="id" value="<%=row1[0] %>">
+            <input type="hidden" name="id" th:value="${datacmd[0].id_commande}">
             <label>Etat de Commande:</label>
-           <select name="etat">
-				   <%for(Etat etat:Etat.values()){
-				       if(etat.name().equals(cmdDao.afficherCommandeAvecId(Integer.parseInt(row1[0])).getEtat())){
-				   %>     
-				   <option value="<%=etat.name() %>" selected="selected" ><%=etat.name() %></option>
-				   <%}else{%>
-				       <option value="<%=etat.name() %>"><%=etat.name() %></option>
-				   <%}} %>
-				</select>
+           	<p th:value="${datacmd[0].etat}"></p>
 			<input type="submit" value="Changer Etat">
             </form>
             </p>
@@ -78,15 +64,15 @@
             <table>
                 <tr>
                     <th>Nom Client :</th>
-                    <td><%=cliDao.afficherClientsAvecId(Integer.parseInt(row1[1])).getNom() +" "+ cliDao.afficherClientsAvecId(Integer.parseInt(row1[1])).getPrenom() %></td>
+                    <td><span th:text="${datacmd[0].client.nom}"></span></td>
                 </tr>
                 <tr>
                     <th>Tel :</th>
-                    <td><%=cliDao.afficherClientsAvecId(Integer.parseInt(row1[1])).getTel() %></td>
+                    <td><span th:text="${datacmd[0].client.tel}"></span></td>
                 </tr>
                 <tr>
                     <th>Address :</th>
-                    <td><%=cliDao.afficherClientsAvecId(Integer.parseInt(row1[1])).getAdresse() %></td>
+                    <td><span th:text="${datacmd[0].client.adresse}"></span></td>
                 </tr>
             </table>
 
@@ -98,21 +84,12 @@
                     <th>Prix Unitaire</th>
                     <th>Total</th>
                 </tr>
-                <%
-                //System.out.print(row1[0]);
-                int somme=0;
-		        for(String s:std){
-		        String [] line=s.split(",");
-		         %>
-                <tr>
-                    <td><%=artDao.afficherArticleAvecId(Integer.parseInt(line[2])).getLibelle() %></td>
-                    <td><%=line[3] %></td>
-                    <td><%=artDao.afficherArticleAvecId(Integer.parseInt(line[2])).getPrix() %></td>
-                    <td><%
-                    out.print(Integer.parseInt(line[3])*artDao.afficherArticleAvecId(Integer.parseInt(line[2])).getPrix());
-                    somme+=Integer.parseInt(line[3])*artDao.afficherArticleAvecId(Integer.parseInt(line[2])).getPrix(); %></td>
-                </tr>
-                <%} %>
+                <tr th:each="article :${datacmd}">
+                    <td th:text="${article.article.libelle}"></td>
+                    <td th:text="${article.qty}"></td>
+                    <td th:text="${article.art.prix}"></td>
+                    <td th:text="${article.art.prix*art.qty}"> </td>
+                     </tr>
             </table>
 
             <div>

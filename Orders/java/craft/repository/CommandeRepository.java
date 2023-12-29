@@ -11,6 +11,4 @@ import craft.model.Commande;
 @Repository("commandeRepository")
 public interface CommandeRepository extends JpaRepository<Commande, Integer> {
 
-	@Query(value = "SELECT c.*, ca.* FROM commande c,commande_article ca WHERE c.id_commande=ca.id_commande and c.id_commande=?1",nativeQuery = true)
-	List<Object[]> getInfosCommande(int id);
 }
