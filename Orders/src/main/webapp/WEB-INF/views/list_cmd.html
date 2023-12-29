@@ -31,6 +31,11 @@
      <a class="list-group-item list-group-item-action" th:href="@{'/article/'}">Gestion des Articles</a>
    </div>
  </div>
+   <div class="col-4">
+   <div class="list-group">
+     <a class="list-group-item list-group-item-action" th:href="@{'/commande/rapport/html'}">Gestion des Rapport</a>
+   </div>
+ </div>
 </div>
         <section class="rightside">
             <div class="nav" style="margin-top: 10px">
@@ -44,18 +49,22 @@
                   </ul>
             </div>
             <div>
-                <h1>Liste des Commandes </h1>
+            
+                <h1>Liste des Commandes </h1>                
                 <input type="text" id="SearchCommande" onkeyup="myFunction()" placeholder="Recherche Par Nom Client" title="Taper Nom Client" style="width: 500px;">
                 <table class="table" id="Table">
                   <tr>
-                    <th scope="col">Id Commande</th><th scope="col">Nom Client</th><th scope="col">Etat</th><th>Operation</th>
+                    <th scope="col">Id Commande</th><th scope="col">Etat</th><th scope="col">Nom Client</th><th scope="col">Date Commande</th><th>Operation</th>
                   </tr>
  		
         		<tr th:each="commande : ${datacmd}"> 
 			                <td th:text="${commande.id_commande}"></td> 
-			                <td th:text="${commande.id_client}"></td> 
 			                <td th:text="${commande.etat}"></td> 
+			                <td th:text="${commande.client.nom}"></td> 
+			                <td th:text="${commande.created_at}"></td>
 			                <td><a class="btn btn-danger"  th:href="@{'/commande/Delete/'+${commande.id_commande}}">Supprimer</a></td>			          
+			            	<td><a class="btn btn-infos"  th:href="@{'/commande/show/'+${commande.id_commande}}">Infos</a></td>			          
+			            
 			            </tr> 
 			           
                 </table>

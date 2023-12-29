@@ -3,25 +3,43 @@ package craft.service.Impl;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import craft.DTO.CommandeDTO;
 import craft.model.Article;
 import craft.model.Commande;
+import craft.model.CommandeArticle;
+import craft.service.I_Article;
 import craft.service.I_Commande;
 import craft.model.Etat;
+import craft.repository.ArticleRepository;
+import craft.repository.CmdArticleRepository;
 import craft.repository.CommandeRepository;
 @Service
 public class CommandeDAO implements I_Commande{
 
     @Autowired
     private CommandeRepository commandeRepository;
+    
+    @Autowired
+    private CmdArticleRepository cmdartRepo;
+    
+    @Autowired
+    private ArticleRepository articleRepository;
+    
+    @Autowired
+    private ModelMapper modelMapper; 
+    
+    private I_Article artDao;
     LocalDate date = LocalDate.now();
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
     static Logger log = Logger.getLogger(CommandeDAO.class.getName());  
@@ -39,7 +57,11 @@ public class CommandeDAO implements I_Commande{
     			for(int i=0; i < array.length(); i++)   
     			{  
     			JSONObject object = array.getJSONObject(i); 
-    			//CommandeArticle cmdart=new CommandeArticle.CommandeArticleBuilder().setId_article(object.getInt("id_article")).setId_commande(cmd.getId_commande()).setQty(object.getInt("qty")).build();
+    			int id=object.getInt("id_article");
+    			Article art=articleRepository.findById(id).get();
+    			//System.out.println(art);
+    			CommandeArticle cmdart=new CommandeArticle(cmd,art,object.getInt("qty"));
+    			cmdartRepo.saveAndFlush(cmdart);
     			}
     		 log.debug("Commande Ajouter");
     		 
@@ -50,18 +72,28 @@ public class CommandeDAO implements I_Commande{
 	@Transactional
 	public Commande afficherCommandeAvecId(int id){
 		//Afficher une commande avec id commande
-		Commande cmd=commandeRepository.getOne(id);
-				log.debug("Afficher Commande  id"+id);
+		Commande cmd=commandeRepository.findById(id).get();
+		log.debug("Afficher Commande  id"+id);
 		return cmd; 
 	}
 	@Override
 	@Transactional
 	public List afficherCommandes(){
 		//afficher tous les commandes
-		List commandesList=commandeRepository.findAll();
-			log.debug("afficher list Commandes");
-
-		return commandesList; 
+		List<Commande> commandesList=commandeRepository.findAll();
+		List<CommandeDTO> listcmd=new ArrayList<>();;
+		for (Commande commande : commandesList) {
+			Commande cmd=new Commande.CommandeBuilder()
+														.setId_commande(commande.getId_commande())
+														.setclient(commande.getclient())
+														.setcreated_at(commande.getcreated_at())
+														.setupdated_at(commande.getupdated_at())
+														.build();
+			CommandeDTO cmdDTO = this.modelMapper.map(cmd, CommandeDTO.class);
+			listcmd.add(cmdDTO);
+		}
+		log.debug("afficher list Commandes");
+		return listcmd; 
 	}
 	
 	@Override
@@ -73,6 +105,7 @@ public class CommandeDAO implements I_Commande{
 		
 		for (Object o[] : li) {
 		    Commande c = (Commande) o[0];
+		    System.out.println(c);
 		    //CommandeArticle ca = (CommandeArticle) o[1];
 
 		    //all the classes: Course, Lesson, Progress and User have the toString() overridden with the database ID;    

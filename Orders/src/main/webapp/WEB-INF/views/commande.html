@@ -11,7 +11,7 @@
 
     <!-- custom style -->
     <link rel="stylesheet" th:href="@{/css/style.css}"/>
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
 </head>
 <body>
   <div class="container">
@@ -31,6 +31,11 @@
      <a class="list-group-item list-group-item-action" th:href="@{'/article/'}">Gestion des Articles</a>
    </div>
  </div>
+  <div class="col-4">
+   <div class="list-group">
+     <a class="list-group-item list-group-item-action" th:href="@{'/commande/rapport/html'}">Gestion des Rapport</a>
+   </div>
+ </div>
 </div>
         <section class="rightside">
             <div class="nav" style="margin-top: 10px">
@@ -45,7 +50,7 @@
             </div>
             <div>
                 <h1>Nouveau Commande </h1>
-                <form action="CommandeServlet" name="cmdform" method="post">
+                <form action="Add" name="cmdform" method="post">
                 <input type="hidden" name="op" value="addcmd">
                 <input type="hidden" name="listart" id="listart">
                     <label for="">Nom Client</label>
@@ -55,7 +60,7 @@
                     <div id="infosclient"> </div>  
                     <div id="addclient">
                     <label>Client n'existe pas</label>
-                    <a href="ClientServlet?op=add">Ajouter Client</a><br><br>
+                    <a th:href="@{'/client/Add'}">Ajouter Client</a><br><br>
                      </div> 
                     <label for="">Libelle Article</label>
                     <input type="text"  id="libelle" required="required"><br><br>
@@ -64,12 +69,7 @@
                     <label for="">Quantite</label>
                     <input type="number"id="qtyv" required="required" value="1"><br><br>
                     <a class="btn btn-primary" id="addarticle">Ajouter l'article Dans list</a><br><br>
-                    <label for="">Etat</label>
-                    <select name="etat">
-				   <%for(Etat etat:Etat.values()){%>
-				      <option value="<%=etat.name() %>"><%=etat.name() %></option>
-				   <%} %>
-				</select><br><br>
+                
                    
                     <input type="submit" class="btn btn-success" value="Enregistrer Commande">
                 </form>
@@ -91,7 +91,8 @@ $("#addclient").hide();
 $(document).ready(function() {
 	$('#nom').blur(function() {
 		$.ajax({
-			url : 'CommandeServlet?op=cl',
+			type: 'POST',
+			url : 'cl',
 			data : {
 				nom : $('#nom').val()
 			},
@@ -120,7 +121,8 @@ var articlejson=null;
 $(document).ready(function() { 
 	$('#libelle').blur(function() {
 		$.ajax({
-			url : 'CommandeServlet?op=ar',
+			type: 'POST',
+			url : 'ar',
 			data : {
 				nom : $('#libelle').val()
 			},
@@ -150,8 +152,14 @@ $(document).ready(function() {
 });
 var listart=[];
 $('#addarticle').click( function() {
-	articlejson["qty"]=$('#qtyv').val()
-	listart.push(articlejson);
+	var qty = parseInt($('#qtyv').val(), 10); // Convert input value to integer
+	if (!isNaN(qty) && qty > articlejson["stock"]) {
+	    alert("Quantite demande superieur de stock!");
+	}else{
+		articlejson["qty"]=qty
+		listart.push(articlejson);
+	}
+	
 	//console.log(JSON.stringify(listart));
 $("#articlechoisie tr").remove();
 var s=0;

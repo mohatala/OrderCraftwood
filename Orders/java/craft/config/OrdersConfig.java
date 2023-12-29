@@ -1,5 +1,6 @@
 package craft.config;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -72,5 +73,8 @@ public class OrdersConfig implements WebMvcConfigurer  {
         return viewResolver;
     }
 
-	
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
+    }
 }

@@ -11,6 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -18,25 +20,19 @@ import javax.persistence.Table;
 public class Commande {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_commande")
 	private int id_commande;
-	@Column(name = "id_client")
-	private int id_client;
-	@Column(name = "etat")
+	@ManyToOne
+	@JoinColumn(name = "client_id")
+	private Client client;
 	private String etat;
-	@Column(name = "created_at")
 	private Date created_at;
-	@Column(name = "updated_at")
 	private Date updated_at;
 	
-	LocalDate date = LocalDate.now();
-    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-
     
     public Commande() {}
 	public Commande(CommandeBuilder builder) {
 		this.id_commande= builder.id_commande;
-		this.id_client = builder.id_client;
+		this.client = builder.client;
 		this.etat = builder.etat;
 		this.created_at=builder.created_at;
 		this.updated_at=builder.updated_at;
@@ -46,8 +42,8 @@ public class Commande {
 		return id_commande;
 	}
 
-	public int getId_client() {
-		return id_client;
+	public Client getclient() {
+		return client;
 	}
 
 	public String getEtat() {
@@ -64,13 +60,13 @@ public class Commande {
 
 	@Override
 	public String toString() {
-		return "Commande [id_commande=" + id_commande + ", id_client=" + id_client + ", etat=" + etat
-				+ ", created_at=" + created_at + ", updated_at=" + updated_at + "]";
+		return "[id_commande=" + id_commande + ", client=" + client + ", etat=" + etat
+				+ ", created_at=" + created_at + "]";
 	}
 	
 	public static class CommandeBuilder{
 		private int id_commande;
-		private int id_client;
+		private Client client;
 		private String etat;
 		private Date created_at;
 		private Date updated_at;
@@ -79,8 +75,8 @@ public class Commande {
 			this.id_commande = id_commande;
 			return this;
 		}
-		public CommandeBuilder setId_client(int id_client) {
-			this.id_client = id_client;
+		public CommandeBuilder setclient(Client client) {
+			this.client = client;
 			return this;
 		}
 		public CommandeBuilder setEtat(String etat) {

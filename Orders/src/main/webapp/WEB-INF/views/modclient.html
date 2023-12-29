@@ -44,19 +44,20 @@
                   </ul>
             </div>
             <div>
-				<h1>Nouveau Client </h1>
-				    <form action="Addop"  method="post">
-                	<input type="hidden" name="op" value="ajouter">
+            <h1>Modifier Client </h1>
+            	 <form th:action="@{/client/Modop}" th:method="post" th:object="${clientfr}">
+                    <input type="hidden" name="id_client" th:value="${id_client}"   >
                     <label for="">Nom Client</label>
-                    <input type="text" name="nom" required="required" > <br><br>
+                    <input type="text" name="nom" th:value="${nom}"   required="required"> <br><br>
                     <label for="">Prenom </label>
-                    <input type="text" name="prenom" required="required"><br><br>
+                    <input type="text" name="prenom" th:value="${prenom}"  required="required"><br><br>
                     <label for="">Tel</label>
-                    <input type="text" name="tel" required="required"><br><br>
+                    <input type="text" name="tel"  th:value="${tel}"  required="required"><br><br>
                     <label for="">Adresse</label>
-                    <input type="text" name="adresse" required="required"><br><br>
-                    <input type="submit" class="btn btn-success" value="Enregistrer Client">
-                    </form>
+                    <input type="text" name="adresse" th:value="${adresse}"    required="required"><br><br>
+                    <input type="submit" class="btn btn-success" value="Modifier Client">
+            	  </form>
+
             </div>
         </section>
     </div>
