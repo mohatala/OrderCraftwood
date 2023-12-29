@@ -14,15 +14,27 @@
 		</conditionalStyle>
 	</style>
 	<queryString language="SQL">
-		<![CDATA[SELECT MONTH(created_at), SUM(total) FROM commande GROUP BY MONTH(created_at)]]>
+		<![CDATA[SELECT * FROM commande GROUP BY MONTH(created_at)]]>
 	</queryString>
-	<field name="MONTH(created_at)" class="java.lang.Integer">
-		<property name="com.jaspersoft.studio.field.name" value="MONTH(created_at)"/>
-		<property name="com.jaspersoft.studio.field.label" value="MONTH(created_at)"/>
+	<field name="id_commande" class="java.lang.Integer">
+		<property name="com.jaspersoft.studio.field.name" value="id_commande"/>
+		<property name="com.jaspersoft.studio.field.label" value="id_commande"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="commande"/>
 	</field>
-	<field name="SUM(total)" class="java.lang.Double">
-		<property name="com.jaspersoft.studio.field.name" value="SUM(total)"/>
-		<property name="com.jaspersoft.studio.field.label" value="SUM(total)"/>
+	<field name="created_at" class="java.sql.Date">
+		<property name="com.jaspersoft.studio.field.name" value="created_at"/>
+		<property name="com.jaspersoft.studio.field.label" value="created_at"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="commande"/>
+	</field>
+	<field name="etat" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.name" value="etat"/>
+		<property name="com.jaspersoft.studio.field.label" value="etat"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="commande"/>
+	</field>
+	<field name="total" class="java.lang.Double">
+		<property name="com.jaspersoft.studio.field.name" value="total"/>
+		<property name="com.jaspersoft.studio.field.label" value="total"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="commande"/>
 	</field>
 	<background>
 		<band splitType="Stretch"/>
@@ -64,16 +76,28 @@
 	<columnHeader>
 		<band height="26" splitType="Stretch">
 			<staticText>
-				<reportElement x="48" y="0" width="100" height="26" uuid="bdd36b49-6a62-4abf-9cc2-44d30a210523">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0d1f1224-27a9-4b89-8c62-69772d030884"/>
+				<reportElement x="26" y="0" width="100" height="26" uuid="d14a71c3-445b-4f76-a9d3-8de6f7c6c3f7">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9fd791dc-d2ab-490e-8ad5-60b81ff155c7"/>
 				</reportElement>
-				<text><![CDATA[Mois]]></text>
+				<text><![CDATA[id_commande]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="213" y="0" width="100" height="26" uuid="7335028e-44ac-4e61-a4fc-9be542fc0699">
-					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="75df760d-f224-4dc0-b0c3-067b612e3850"/>
+				<reportElement x="130" y="0" width="100" height="26" uuid="c58e5962-2933-4f0e-bfc9-b294b04d1042">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0a88aea9-c29e-462a-9dbf-8c35646f1fa5"/>
 				</reportElement>
-				<text><![CDATA[Total]]></text>
+				<text><![CDATA[created_at]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="260" y="0" width="100" height="26" uuid="04171a30-284d-4c12-b7e1-dc1451776966">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0a5de5ae-56fb-4f96-a1fb-010ee4741cfe"/>
+				</reportElement>
+				<text><![CDATA[etat]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="370" y="0" width="100" height="26" uuid="ae87da85-cdbd-4493-9187-811bde867c33">
+					<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c1aa561c-dccb-43ee-b094-e582fd315ab7"/>
+				</reportElement>
+				<text><![CDATA[total]]></text>
 			</staticText>
 		</band>
 	</columnHeader>
@@ -82,16 +106,28 @@
 			<frame>
 				<reportElement style="Row" mode="Opaque" x="0" y="0" width="555" height="18" uuid="b50221b5-8254-440b-8c6f-1f0b138c9259"/>
 				<textField>
-					<reportElement x="48" y="3" width="100" height="30" uuid="56d7ec55-0ce5-42d7-b63a-cb8b337f6122">
-						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0d1f1224-27a9-4b89-8c62-69772d030884"/>
+					<reportElement x="26" y="8" width="100" height="30" uuid="490c702c-e687-46d4-b3c3-6aad2dbd6ddd">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="9fd791dc-d2ab-490e-8ad5-60b81ff155c7"/>
 					</reportElement>
-					<textFieldExpression><![CDATA[$F{MONTH(created_at)}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{id_commande}]]></textFieldExpression>
 				</textField>
 				<textField>
-					<reportElement x="213" y="6" width="100" height="30" uuid="777d2b06-50d1-4ead-8599-a2c0f39b8c28">
-						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="75df760d-f224-4dc0-b0c3-067b612e3850"/>
+					<reportElement x="130" y="8" width="100" height="30" uuid="8134e46e-3059-4205-ac60-eb9f1e96ab35">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0a88aea9-c29e-462a-9dbf-8c35646f1fa5"/>
 					</reportElement>
-					<textFieldExpression><![CDATA[$F{SUM(total)}]]></textFieldExpression>
+					<textFieldExpression><![CDATA[$F{created_at}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="260" y="6" width="100" height="30" uuid="00539fac-a204-4569-94fd-cc0d34250947">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="0a5de5ae-56fb-4f96-a1fb-010ee4741cfe"/>
+					</reportElement>
+					<textFieldExpression><![CDATA[$F{etat}]]></textFieldExpression>
+				</textField>
+				<textField>
+					<reportElement x="370" y="8" width="100" height="30" uuid="5ae60f17-92b4-4fd4-9b91-902cf58ed127">
+						<property name="com.jaspersoft.studio.spreadsheet.connectionID" value="c1aa561c-dccb-43ee-b094-e582fd315ab7"/>
+					</reportElement>
+					<textFieldExpression><![CDATA[$F{total}]]></textFieldExpression>
 				</textField>
 			</frame>
 		</band>
