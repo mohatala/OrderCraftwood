@@ -27,7 +27,7 @@ public class Commande {
 	private String etat;
 	private Date created_at;
 	private Date updated_at;
-	
+	private double total;
     
     public Commande() {}
 	public Commande(CommandeBuilder builder) {
@@ -36,6 +36,7 @@ public class Commande {
 		this.etat = builder.etat;
 		this.created_at=builder.created_at;
 		this.updated_at=builder.updated_at;
+		this.total=builder.total;
 	}
 
 	public int getId_commande() {
@@ -57,11 +58,15 @@ public class Commande {
 	public Date getupdated_at() {
 		return updated_at;
 	}
+	
 
+	public double getTotal() {
+		return total;
+	}
 	@Override
 	public String toString() {
 		return "[id_commande=" + id_commande + ", client=" + client + ", etat=" + etat
-				+ ", created_at=" + created_at + "]";
+				+ ", created_at=" + created_at +", total=" + total + "]";
 	}
 	
 	public static class CommandeBuilder{
@@ -70,7 +75,8 @@ public class Commande {
 		private String etat;
 		private Date created_at;
 		private Date updated_at;
-		
+		private double total;
+
 		public CommandeBuilder setId_commande(int id_commande) {
 			this.id_commande = id_commande;
 			return this;
@@ -94,6 +100,10 @@ public class Commande {
 			return this;
 		}
 		
+		public CommandeBuilder setTotal(double total) {
+			this.total = total;
+			return this;
+		}
 		public Commande build() {
 			return new Commande(this);
 		}

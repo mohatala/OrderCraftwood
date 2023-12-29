@@ -66,10 +66,11 @@ public class CommandeController {
 	@PostMapping("/Add")
 	public String addcommande(HttpServletResponse response,HttpServletRequest request) {
 		String listart=request.getParameter("listart");
+		String total=request.getParameter("total");
 		String id_client=request.getParameter("idclient");
 		Date date=new Date();
 		Client c=cliDao.afficherClientAvecId(Integer.parseInt(id_client));
-		Commande cmd=new Commande.CommandeBuilder().setclient(c).setEtat(Etat.EnAttente.toString()).setcreated_at(date).setupdated_at(date).build();
+		Commande cmd=new Commande.CommandeBuilder().setclient(c).setEtat(Etat.EnAttente.toString()).setcreated_at(date).setupdated_at(date).setTotal(Double.parseDouble(total)).build();
 		if(cmdDao.ajouterCommande(cmd,listart)!=null) {
 			return "commande";
 		}

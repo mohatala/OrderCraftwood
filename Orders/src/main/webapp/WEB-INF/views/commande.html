@@ -53,6 +53,8 @@
                 <form action="Add" name="cmdform" method="post">
                 <input type="hidden" name="op" value="addcmd">
                 <input type="hidden" name="listart" id="listart">
+                <input type="hidden" name="total" id="totalinput">
+                
                     <label for="">Nom Client</label>
                     <input type="text"  id="nom" required="required">
                     <br><br>
@@ -176,7 +178,7 @@ var s=0;
 	$("#total").empty();
 	var row1="<tr><td></td><td></td><td>Total Commande</td><td>"+s+"</td></tr>";
 	$("#total").append(row1);
-		
+	$('#totalinput').val(JSON.stringify(s));
 	$('#listart').val(JSON.stringify(listart));
 	console.log(document.getElementById('listart').value);
 	});
